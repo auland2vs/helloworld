@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bouncing Hello World</title>
+    <link href="https://unpkg.com/tailwindcss@^2.0/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        #app {
+            border: 50px dashed #607eb4;
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
+        #draggable {
+            position: absolute;
+            cursor: move;
+            user-select: none; /* Prevent text selection */
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    </style>
+</head>
+<body>
+    <div id="app" class="bg-red-200">
+        <div id="draggable" class="text-xl font-bold">
+            Hello World
+        </div>
+    </div>
+
+    <script>
+        const element = document.getElementById('draggable');
+        let speedX = 0, speedY = 0, mouseX = 0, mouseY = 0;
+        let animationFrameId;
+
+        element.onmousedown = function(event) {
+            event.preventDefault();
+            mouseX = event.clientX;
+            mouseY = event.clientY;
+            document.onmousemove = elementDrag;
+            document.onmouseup = stopElementDrag;
+            cancelAnimationFrame(animationFrameId); // Stop any existing animation
+        };
+
+        function elementDrag(event) {
+            event.preventDefault();
+            let dx = mouseX - event.clientX;
+            let dy = mouseY - event.clientY;
+            mouseX = event.clientX;
+            mouseY = event.clientY;
+            speedX = -dx; // Set speed for the throw
+            speedY = -dy;
+            element.style.top = (element.offsetTop - dy) + "px";
+            element.style.left = (element.offsetLeft - dx) + "px";
+        }
+
+        function stopElementDrag() {
+            document.onmousemove = null;
+            document.onmouseup = null;
+            animationFrameId = requestAnimationFrame(bounceAnimation);
+        }
+
+        function bounceAnimation() {
+            let container = document.getElementById('app');
+            let newTop = element.offsetTop + speedY;
+            let newLeft = element.offsetLeft + speedX;
+
+            // Bounce off the walls
+            if (newLeft <= 0 || newLeft + element.offsetWidth >= container.offsetWidth) {
+                speedX *= -1;
+            }
+            if (newTop <= 0 || newTop + element.offsetHeight >= container.offsetHeight) {
+                speedY *= -1;
+            }
+
+            element.style.top = newTop + "px";
+            element.style.left = newLeft + "px";
+
+            animationFrameId = requestAnimationFrame(bounceAnimation);
+        }
+    </script>
+</body>
+</html>
