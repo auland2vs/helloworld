@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome Page</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #7d9fe3; /* Light gray background */
+        }
+        .glow-button {
+            padding: 35px 80px;
+            border: none;
+            border-radius: 11px;
+            background-color: #4A5568; /* Dark grayish-blue */
+            color: white;
+            font-size: 33px;
+            cursor: pointer;
+            transition: background-color 0.5s, box-shadow 0.5s;
+        }
+        .glow-button:hover {
+            background-color: #2d3748; /* Slightly darker blue */
+            box-shadow: 0 0 15px #4A5568;
+        }
+    </style>
+</head>
+<body>
+    <button class="glow-button" onclick="location.href='hellobounce.html';">Bounce</button>
+</body>
+</html>
